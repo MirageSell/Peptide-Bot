@@ -1,6 +1,6 @@
 import os
-from telegram import Update, InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo
-from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes
+from telegram import InlineKeyboardButton, InlineKeyboardMarkup, WebAppInfo, Update
+from telegram.ext import Application, CommandHandler, ContextTypes
 
 TOKEN = os.environ.get("BOT_TOKEN")
 WEBAPP_URL = "https://miragesell.github.io/Peptide/"
@@ -29,8 +29,11 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
         reply_markup=reply_markup
     )
 
-if __name__ == "__main__":
-    app = ApplicationBuilder().token(TOKEN).build()
+def main():
+    app = Application.builder().token(TOKEN).build()
     app.add_handler(CommandHandler("start", start))
     print("Bot démarré...")
-    app.run_polling()
+    app.run_polling(allowed_updates=Update.ALL_TYPES)
+
+if __name__ == "__main__":
+    main()
